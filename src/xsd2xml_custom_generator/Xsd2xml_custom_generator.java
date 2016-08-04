@@ -94,8 +94,10 @@ public class Xsd2xml_custom_generator {
         add("NMTOKENS");
     }};
 
+    // Генератор, который вместо значений вставляет тип значения.
+    // т.е. если в xsd у элемента тип "xs:decimal", то значение будет "decimal"
     static 
-    class MySampleValueGenerator implements jlibs.xml.xsd.XSInstance.SampleValueGenerator {
+    class TypeNameValueGenerator implements jlibs.xml.xsd.XSInstance.SampleValueGenerator {
         // Функция у указанного типа ищет название его xsd типа. Т.к. тип может быть пользовательским,
         // то получить его xsd тип может не получиться. Для этого и используется эта рекурсивная функция,
         // т.к. я не уверен, что вложенность полей XSSimpleTypeDefinition не может быть только уровней XSSimpleTypeDefinition и
@@ -168,7 +170,7 @@ public class Xsd2xml_custom_generator {
         xsInstance.generateOptionalAttributes = Boolean.TRUE;
         xsInstance.generateFixedAttributes = Boolean.TRUE;
         xsInstance.generateDefaultAttributes = Boolean.TRUE;
-        xsInstance.sampleValueGenerator = new MySampleValueGenerator();
+        xsInstance.sampleValueGenerator = new TypeNameValueGenerator();
 
         // Create a StringWriter for the output
         java.io.StringWriter outWriter = new java.io.StringWriter();
